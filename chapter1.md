@@ -10,7 +10,7 @@ npm init
 npm install koa --install
 ```
 
-### Hello World 代码
+### 代码
 
 ```js
 // 引入 koa 模块
