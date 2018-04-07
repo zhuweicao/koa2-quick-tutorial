@@ -2,7 +2,7 @@
 
 ### 安装 koa2
 
-```js
+```shell
 // 初始化 package.json
 npm init
 
