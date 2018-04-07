@@ -1,6 +1,6 @@
 # 快速体验
 
-### 安装 koa2
+### 安装
 
 ```shell
 // 初始化 package.json
