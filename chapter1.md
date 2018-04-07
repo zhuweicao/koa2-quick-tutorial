@@ -35,5 +35,11 @@ console.log("starting at port 3000")
   node app.js
   ```
 
+* 访问地址
+  * [http://localhost:3000](http://localhost:3000)
+
+* 显示效果
+  ![](/assets/img1.png)
+
 
 
