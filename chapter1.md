@@ -30,18 +30,20 @@ console.log("starting at port 3000")
 
 ### 启动 Demo
 
-* 启动应用
+> ##### 启动应用
 
-  ```
-  node app.js
-  ```
+```
+node app.js
+```
 
-* 访问地址
+> 访问地址
 
-  * [http://localhost:3000](http://localhost:3000)
+```
+http://localhost:3000
+```
 
-* 显示效果  
-  ![](/assets/img1.png)
+> 显示效果  
+> ![](/assets/img1.png)
 
 
 
