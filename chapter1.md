@@ -28,5 +28,12 @@ app.listen(3000)
 console.log("starting at port 3000")
 ```
 
+### 启动 Demo
+
+* 启动应用
+  ```
+  node app.js
+  ```
+
 
 
