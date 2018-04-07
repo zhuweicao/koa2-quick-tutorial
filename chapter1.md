@@ -28,7 +28,7 @@ app.listen(3000)
 console.log("starting at port 3000")
 ```
 
-### 启动 Demo
+### 启动
 
 > ##### 启动应用
 
@@ -42,8 +42,7 @@ node app.js
 http://localhost:3000
 ```
 
-> 显示效果  
-> ![](/assets/img1.png)
+### 显示效果 ![](/assets/img1.png)
 
 
 
