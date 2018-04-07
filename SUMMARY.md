@@ -1,5 +1,5 @@
 # Summary
 
 * [Koa2介绍](README.md)
-* [快速开始](chapter1.md)
+* [快速体验](chapter1.md)
 
