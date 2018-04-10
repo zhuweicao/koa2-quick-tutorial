@@ -6,37 +6,51 @@
 但实际上还有其他线程，如事件触发线程、ajax请求线程等。这也就引发了同步和异步的问题。
 
 > 假如你要做两件事，烧水、刷牙
+>
 同步：你烧水，等水烧开了你再去刷牙
+>
 异步：你烧水，不等水烧开就去刷牙了，水烧开了会发出声音告诉你（callback），然后你再处理水烧开之后的事情
 
 ## 回调函数
 > 回调函数是一段可执行的代码段，它以「参数」的形式传递给其他代码，在其合适的时间执行这段（回调函数）的代码。
 
-## 异步问题引发问题
-* 异步代码实现网络请求
+## 异步问题
+* 异步代码实现读取文件 a.txt、b.txt、c.txt
     ```
-    ajax('url1',function(data1) {
-        ajax('url2',function(data2){
-            ajax('url3',function(data3){
-                ajax('url4',function(data4){
-            
-                })
+    var fs = require('fs');
+    fs.readFile('a.txt',function(error,data1) {
+        console.log("a.txt => ",data1)
+        fs.readFile('b.txt',function(error,data2){
+            console.log('b.txt => ',data2)
+            fs.readFile('c.txt',function(error,data3){
+                console.log('c.txt =>',data3)
             })
         })
     })
     ```
 
-* Promise 实现异步网络请求
+* Promise 实现读取文件 a.txt、b.txt、c.txt
     ```
-    ajax('url1')
+    // 把操作定义成 Promise 对象
+    function doReadFile(file) {
+        return new Promise((resolve,reject)=>{
+            fs.readFile(file,function(err,data){
+                resolve(data)
+            })
+        })
+    }
+    // 依次操作
+    doReadFile('a.txt')
     .then(function(data1){
-        return ajax('url2')
+        console.log("a.txt=>",data1)
+        return doReadFile('b.txt')
     })
     .then(function(data2){
-        return ajax('url3')
+        console.log("b.txt=>",data2)
+        return doReadFile('c.txt')
     })
     .then(function(data3){
-        
+        console.log("c.txt=>",data3)
     })
     ```
 
@@ -71,8 +85,9 @@ var promise = new Promise(function (resolve, reject) {
 
 #### 基本 API
 ##### .then()
+语法：
+> Promise.prototype.then(onResolve, onRejected)
 
-> 语法：Promise.prototype.then(onResolve, onRejected)
 ```
     new Promise(function (resolve, reject) {
         if (/* 异步操作成功 */) {
@@ -101,11 +116,12 @@ var promise = new Promise(function (resolve, reject) {
         // 处理结果
     })
 ```
-
-> 作用：当 Promise 对象内部调用 `resolve` 方法会触发 `.then()` 继续执行代码
+作用：
+> 当 Promise 对象内部调用 `resolve` 方法会触发 `.then(onResolve,onRejected)` 中的 `onResolve` 继续执行代码，当 Promise 对象内部调用 `reject` 方法会出发 `.then(onResolve,onRejected)` 中的 `onRejected` 继续执行代码，并且返回一个新的 `Promise` 对象形成链式调用
 
 ##### .catch()
-> 语法：Promise.prototype.catch(onRejected)
+语法：
+> Promise.prototype.catch(onRejected)
 
 ```
     new Promise(function (resolve, reject) {
@@ -124,11 +140,13 @@ var promise = new Promise(function (resolve, reject) {
     })
 ```
 
-> 作用：当 Promise 对象内部调用 `reject` 方法会触发 `.catch()` 执行代码
+作用：
+> 当 Promise 对象内部调用 `reject` 方法会触发 `.catch()` 执行代码
 
 #### Promise 静态方法
 ##### .resolve()
-> 语法: Promise.resolve()
+语法: 
+> Promise.resolve()
 
 ```
 Promise.resolve('Success');
@@ -139,7 +157,8 @@ new Promise(function (resolve) {
 ```
 
 ##### .reject()
-> 语法: Promise.reject()
+语法：
+> Promise.reject()
 
 ```
 Promise.reject(new Error('error'));
@@ -151,7 +170,8 @@ new Promise(function (resolve, reject) {
 ```
 
 ##### .all()
-> 语法：Promise.all(iterable)
+语法：
+> Promise.all(iterable)
 
 ```
 var p1 = new Promise((resolve, reject) => { 
@@ -170,10 +190,13 @@ Promise.all([p1, p2, p3]).then(function (value) {
     console.log('reject', error);    // => reject three
 });
 ```
-> 作用: 把多个 `Promise` 对象合并成一个 `Promise` 对象，多个 `Promise` 全部执行 `resolve` 才会触发合并后的 `Promise` 对象的 `.then()` 方法
+
+作用：
+> 把多个 `Promise` 对象合并成一个 `Promise` 对象，多个 `Promise` 全部执行 `resolve` 才会触发合并后的 `Promise` 对象的 `.then()` 方法
 
 ##### .race()
-> 语法：Promise.race(iterable)
+语法：
+> Promise.race(iterable)
 
 ```
 var p1 = new Promise((resolve, reject) => { 
@@ -193,7 +216,8 @@ Promise.race([p1, p2, p3]).then(function (value) {
 });
 ```
 
-> 作用: 把多个 `Promise` 对象合并成一个 `Promise` 对象，多个 `Promise` 只要有一个执行 `resolve` 就会触发合并后的 `Promise` 对象的 `.then()` 方法
+作用：
+> 把多个 `Promise` 对象合并成一个 `Promise` 对象，多个 `Promise` 只要有一个执行 `resolve` 就会触发合并后的 `Promise` 对象的 `.then()` 方法
 
 #### 项目中常见用法
 ```
